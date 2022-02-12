@@ -12,6 +12,10 @@ function App() {
           path="/add-book"
           element={<NavBar children={<CreatePage />} />}
         />
+        <Route
+          path="/add-book/:id"
+          element={<NavBar children={<CreatePage />} />}
+        />
       </Routes>
     </BrowserRouter>
   );
