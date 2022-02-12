@@ -6,18 +6,15 @@ import NavBar from "./components/NavBar";
 function App() {
   return (
     <BrowserRouter>
-    <Routes>
-      <Route
-        path="/"
-        element={<NavBar children={<HomePage />} />}
-      />
-      <Route
-        path="/add-book"
-        element={<NavBar children={<CreatePage />} />}
-      />
-    </Routes>
+      <Routes>
+        <Route path="/" element={<NavBar children={<HomePage />} />} />
+        <Route
+          path="/add-book"
+          element={<NavBar children={<CreatePage />} />}
+        />
+      </Routes>
     </BrowserRouter>
-  )
+  );
 }
 
 export default App;
