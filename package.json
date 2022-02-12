@@ -1,0 +1,29 @@
+{
+  "name": "libraryassignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+    "engines": {
+    "node": "14.18.1",
+    "npm": "8.1.3"
+  },
+  "scripts": {
+    "install": "npm run install-client && npm run install-server",
+    "build": "npm run build-client",
+    "start": "npm run start-server",
+    "install-client": "cd client && npm install && cd ..",
+    "install-server": "cd server && npm install && cd ..",
+    "build-client": "cd client && npm run build && cd ..",
+    "start-server": "cd server && npm start && cd .."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Theo-Wall/libraryAssignment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Theo-Wall/libraryAssignment/issues"
+  },
+  "homepage": "https://github.com/Theo-Wall/libraryAssignment#readme"
+}
