@@ -11,10 +11,10 @@
     "install": "npm run install-client && npm run install-server",
     "build": "npm run build-client",
     "start": "npm run start-server",
-    "install-client": "cd client && npm install && cd ..",
-    "install-server": "cd server && npm install && cd ..",
-    "build-client": "cd client && npm run build && cd ..",
-    "start-server": "cd server && npm start && cd .."
+    "install-client": "cd books-frontend && npm install && cd ..",
+    "install-server": "cd books-backend && npm install && cd ..",
+    "build-client": "cd books-frontend && npm run build && cd ..",
+    "start-server": "cd books-backend && npm start && cd .."
   },
   "repository": {
     "type": "git",
