@@ -1,24 +1,30 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import FormControl from "@mui/material/FormControl";
-import { Typography } from "@mui/material";
+import {
+  Typography,
+  FormControl,
+  Button,
+  TextField,
+  CardContent,
+  Card,
+  Box,
+} from "@mui/material";
 
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 const CreatePage = () => {
+  // receives id parameter from URL
   const { id } = useParams();
-  const navigate = useNavigate()
+  // navigate hook
+  const navigate = useNavigate();
+  // state hooks for inputs
   const [name, setName] = useState("");
   const [author, setAuthor] = useState("");
   const [yearOfPublishing, setYearOfPublishing] = useState("");
   const [isbnNumber, setIsbnNumber] = useState("");
 
+  // fetches book to be edited from back-end only if a id is passed in as a parameter and sets the input values
   useEffect(() => {
     const getBook = async () => {
       try {
@@ -39,6 +45,7 @@ const CreatePage = () => {
     }
   }, [id]);
 
+  // Handles the Add book function, creates new book object and sends to back end to be saved in memory
   const handleSubmit = async () => {
     const newBook = {
       name,
@@ -46,12 +53,16 @@ const CreatePage = () => {
       yearOfPublishing,
       isbnNumber,
     };
-    const response = await axios.post(`${process.env.REACT_APP_API_URL}/books/createBook`, newBook);
+    const response = await axios.post(
+      `${process.env.REACT_APP_API_URL}/books/createBook`,
+      newBook
+    );
     if (response) {
-      navigate("/")
+      navigate("/");
     }
   };
 
+  // Handles the Edit book function, edits the fetched book object and sends to back end to update the found book
   const handleEdit = async () => {
     const newEdit = {
       name,
@@ -60,16 +71,19 @@ const CreatePage = () => {
       isbnNumber,
     };
     const response = await axios.put(
-      `${process.env.REACT_APP_API_URL}/books/updateBook/${id}`, newEdit
+      `${process.env.REACT_APP_API_URL}/books/updateBook/${id}`,
+      newEdit
     );
     if (response) {
-      navigate("/")
+      navigate("/");
     }
   };
 
+  // card component formats the input components
   const card = (
     <React.Fragment>
       <CardContent>
+        {/* controls what page title is display Add Book or Edit Book */}
         {id ? (
           <Typography variant="h4" componant="div" gutterBottom>
             Edit Book:
@@ -135,6 +149,10 @@ const CreatePage = () => {
             }}
             sx={{ margin: "10px 10px 10px 0" }}
           />
+          {/* 
+          controls what button is rendered to display the correct button to fire 
+          the handle submit or handle edit functions 
+          */}
           {id ? (
             <Button
               variant="outlined"
@@ -158,7 +176,9 @@ const CreatePage = () => {
   );
 
   return (
+    // container for the input card for formatting
     <Box sx={{ minWidth: 500, padding: "1em 10em" }}>
+      {/* card component from above is added here as variable */}
       <Card variant="outlined">{card}</Card>
     </Box>
   );

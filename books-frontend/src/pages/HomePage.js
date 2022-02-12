@@ -1,37 +1,44 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
+import {
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  Button,
+  Typography,
+} from "@mui/material";
 
 import BookGrid from "../components/BookGrid";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Typography } from "@mui/material";
 
 const HomePage = () => {
-  const navigate = useNavigate()
+  // navigate hook
+  const navigate = useNavigate();
+  // state variable to control when the books list is
+  // displayed, the selected book id, and to disable/enable buttons
   const [books, setBooks] = useState();
   const [bookSelectionId, setBookSelectionId] = useState();
-  const [buttonSelect, setButtonSelect] = useState(true)
+  const [buttonSelect, setButtonSelect] = useState(true);
 
-
+  // pulls book id from DataGrid Component for edit/delete functions
   const handleSelect = (selection) => {
-    console.log('selection', selection)
-    setBookSelectionId(selection[0])
-    setButtonSelect(false)
-  }
+    console.log("selection", selection);
+    setBookSelectionId(selection[0]);
+    setButtonSelect(false);
+  };
 
+  // deletes current selected book from DataGrid
   const handleDelete = async () => {
     const response = await axios.delete(
       `${process.env.REACT_APP_API_URL}/books/deleteBook/${bookSelectionId}`
     );
-    console.log('response', response)
-    navigate(0)
-  }
+    console.log("response", response);
+    navigate(0);
+  };
 
+  // fetched the full booklist from back end to be displayed
   useEffect(() => {
     const getBooks = async () => {
       try {
@@ -48,11 +55,14 @@ const HomePage = () => {
     getBooks();
   }, []);
 
-  const card = (
+  // grid component formats the DataGrid component and buttons displayed below for Add/Edit/Delete functions
+  const grid = (
     <React.Fragment>
       <CardContent>
-        <Typography variant="h4" componant="div" gutterBottom>Your Library:</Typography>
-        <BookGrid bookData={books} handleSelect={handleSelect}/>
+        <Typography variant="h4" componant="div" gutterBottom>
+          Your Library:
+        </Typography>
+        <BookGrid bookData={books} handleSelect={handleSelect} />
         <Grid
           container
           direction="row"
@@ -60,7 +70,12 @@ const HomePage = () => {
           alignItems="center"
         >
           <Grid item xs={2} sx={{ paddingTop: "10px" }}>
-            <Button variant="outlined" disabled={!buttonSelect} href={"/add-book"} sx={{ fontSize: "10px" }}>
+            <Button
+              variant="outlined"
+              disabled={!buttonSelect}
+              href={"/add-book"}
+              sx={{ fontSize: "10px" }}
+            >
               Add Book
             </Button>
           </Grid>
@@ -92,7 +107,7 @@ const HomePage = () => {
 
   return (
     <Box sx={{ minWidth: 275, padding: "1em 3em" }}>
-      <Card variant="outlined">{card}</Card>
+      <Card variant="outlined">{grid}</Card>
     </Box>
   );
 };
