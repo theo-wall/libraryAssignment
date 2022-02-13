@@ -33,19 +33,20 @@ const CreatePage = () => {
     navigate("/");
   };
 
+  // controls min and max value for yearOfPublishing input
   const minValue = 1;
   const maxValue = 9999;
-
+  // controls min and max value of isdn number input
   const minValueIsdn = 1;
   const maxValueIsdn = 9999999999999;
-
+  // handles yearOfPublishing over flow date
   const handleYear = (e) => {
     const newValue = Math.min(Math.max(e.target.value, minValue), maxValue);
     if (newValue < 9999) {
       setYearOfPublishing(newValue);
     }
   };
-
+  // handles isdn number over flow nums
   const handleIsdn = (e) => {
     const newValue = Math.min(Math.max(e.target.value, minValueIsdn), maxValueIsdn);
     if (newValue < 9999999999999) {
