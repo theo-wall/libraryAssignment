@@ -1,9 +1,9 @@
-import { DataGrid, GridRowsProp, GridColDef } from "@mui/x-data-grid";
+import { DataGrid } from "@mui/x-data-grid";
 
 
 const BookGrid = ({ bookData, handleSelect }) => {
   // creates array bookRows from bookData fetched from back end for MUI DataGrid
-   const rows: GridRowsProp = bookData?.map((book) => {
+   const rows = bookData?.map((book) => {
     return {
       id: book.id,
       col1: book.name,
@@ -14,7 +14,7 @@ const BookGrid = ({ bookData, handleSelect }) => {
   });
 
   // creates array of column headers for MUI DataGrid
-  const columns: GridColDef[] = [
+  const columns = [
     { field: "col1", headerName: "Book Title", width: 150 },
     { field: "col2", headerName: "Author", width: 150 },
     { field: "col3", headerName: "Publishing Year", width: 150 },

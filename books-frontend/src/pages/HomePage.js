@@ -59,7 +59,7 @@ const HomePage = () => {
   const grid = (
     <React.Fragment>
       <CardContent>
-        <Typography variant="h4" componant="div" gutterBottom>
+        <Typography variant="h4" component="div" gutterBottom>
           Your Library:
         </Typography>
         <BookGrid bookData={books} handleSelect={handleSelect} />

@@ -24,6 +24,14 @@ const CreatePage = () => {
   const [yearOfPublishing, setYearOfPublishing] = useState("");
   const [isbnNumber, setIsbnNumber] = useState("");
 
+  const minValue = 1;
+  const maxValue = 9999;
+
+  const handleYear = (e) => {
+    const newValue = Math.min(Math.max(e.target.value, minValue), maxValue);
+    setYearOfPublishing(newValue);
+  };
+
   // fetches book to be edited from back-end only if a id is passed in as a parameter and sets the input values
   useEffect(() => {
     const getBook = async () => {
@@ -31,7 +39,6 @@ const CreatePage = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/books/findBook/${id}`
         );
-        console.log("response", response);
         setName(response.data.name);
         setAuthor(response.data.author);
         setYearOfPublishing(response.data.yearOfPublishing);
@@ -85,11 +92,11 @@ const CreatePage = () => {
       <CardContent>
         {/* controls what page title is display Add Book or Edit Book */}
         {id ? (
-          <Typography variant="h4" componant="div" gutterBottom>
+          <Typography variant="h4" component="div" gutterBottom>
             Edit Book:
           </Typography>
         ) : (
-          <Typography variant="h4" componant="div" gutterBottom>
+          <Typography variant="h4" component="div" gutterBottom>
             Add Book:
           </Typography>
         )}
@@ -124,13 +131,15 @@ const CreatePage = () => {
             label="Year Of Publication"
             variant="outlined"
             type="number"
-            inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-            min="0"
+            inputProps={{
+              inputMode: "numeric",
+              pattern: "[0-9]*",
+            }}
             fullWidth
             focused={Boolean(id)}
             value={yearOfPublishing}
             onChange={(event) => {
-              setYearOfPublishing(event.target.value);
+              handleYear(event);
             }}
             sx={{ margin: "10px 10px 10px 0" }}
           />
@@ -165,6 +174,7 @@ const CreatePage = () => {
             <Button
               variant="outlined"
               onClick={handleSubmit}
+              disabled={!name && !author && !yearOfPublishing && !isbnNumber}
               sx={{ fontSize: "10px" }}
             >
               Submit New Book
