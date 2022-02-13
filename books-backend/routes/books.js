@@ -3,6 +3,8 @@ let { books } = require("../bookData");
 var express = require("express");
 var router = express.Router();
 
+let bookIdCounter = books.length + 1;
+
 // GET Endpoint || description: http://localhost:4000/books/listBooks
 // Finds all data in the bookData.js file and sends it to front end with 200 status
 router.get("/listBooks", function (req, res) {
@@ -29,12 +31,23 @@ router.get("/findBook/:id", function (req, res) {
 // Creates a new book in browser memory sends all books back to front end with 201 status
 router.post("/createBook", function (req, res) {
   let newBook = req.body;
-  // adds unique id to new book
-  let newId = books.length + 1;
-  newBook.id = newId;
-  // adds book to bookData.js json
-  books.push(newBook);
-  res.status(201).json(books);
+
+  const foundName = books.find((book) => {
+    return book.name === newBook.name;
+  });
+
+  if (foundName) {
+    res.sendStatus(403)
+  } else {
+    // adds unique id to new book
+    let newId = bookIdCounter + 1;
+    bookIdCounter++
+    
+    newBook.id = newId;
+    // adds book to bookData.js json
+    books.push(newBook);
+    res.status(201).json(books);
+  }
 });
 
 // PUT Endpoint || description: http://localhost:4000/books/updateBook

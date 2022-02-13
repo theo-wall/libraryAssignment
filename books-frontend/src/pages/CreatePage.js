@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import DuplicateModal from "../components/DuplicateModal";
 
 const CreatePage = () => {
   // receives id parameter from URL
@@ -24,13 +25,33 @@ const CreatePage = () => {
   const [yearOfPublishing, setYearOfPublishing] = useState("");
   const [isdnNumber, setIsdnNumber] = useState("");
 
+  // state variable to open and close duplicate modal
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    setOpen(false);
+    navigate("/");
+  };
+
   const minValue = 1;
   const maxValue = 9999;
 
+  const minValueIsdn = 1;
+  const maxValueIsdn = 9999999999999;
+
   const handleYear = (e) => {
     const newValue = Math.min(Math.max(e.target.value, minValue), maxValue);
-    setYearOfPublishing(newValue);
+    if (newValue < 9999) {
+      setYearOfPublishing(newValue);
+    }
   };
+
+  const handleIsdn = (e) => {
+    const newValue = Math.min(Math.max(e.target.value, minValueIsdn), maxValueIsdn);
+    if (newValue < 9999999999999) {
+      setIsdnNumber(newValue);
+    }
+  }
 
   // fetches book to be edited from back-end only if a id is passed in as a parameter and sets the input values
   useEffect(() => {
@@ -54,18 +75,22 @@ const CreatePage = () => {
 
   // Handles the Add book function, creates new book object and sends to back end to be saved in memory
   const handleSubmit = async () => {
-    const newBook = {
-      name,
-      author,
-      yearOfPublishing,
-      isdnNumber,
-    };
-    const response = await axios.post(
-      `${process.env.REACT_APP_API_URL}/books/createBook`,
-      newBook
-    );
-    if (response) {
-      navigate("/");
+    try {
+      const newBook = {
+        name,
+        author,
+        yearOfPublishing,
+        isdnNumber,
+      };
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/books/createBook`,
+        newBook
+      );
+      if (response) {
+        navigate("/");
+      }
+    } catch (e) {
+      handleOpen();
     }
   };
 
@@ -89,6 +114,7 @@ const CreatePage = () => {
   // card component formats the input components
   const card = (
     <React.Fragment>
+      <DuplicateModal open={open} handleClose={handleClose} />
       <CardContent>
         {/* controls what page title is display Add Book or Edit Book */}
         {id ? (
@@ -154,7 +180,7 @@ const CreatePage = () => {
             focused={Boolean(id)}
             value={isdnNumber}
             onChange={(event) => {
-              setIsdnNumber(event.target.value);
+              handleIsdn(event)
             }}
             sx={{ margin: "10px 10px 10px 0" }}
           />
@@ -182,8 +208,10 @@ const CreatePage = () => {
           )}
           <Button
             variant="outlined"
-            onClick={() => {navigate("/")}}
-            sx={{ fontSize: "10px", marginTop: '10px'}}
+            onClick={() => {
+              navigate("/");
+            }}
+            sx={{ fontSize: "10px", marginTop: "10px" }}
           >
             Cancel
           </Button>
