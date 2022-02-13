@@ -1,46 +1,45 @@
-let { books } = require('../bookData')
+let { books } = require("../bookData");
 
-var express = require('express');
+var express = require("express");
 var router = express.Router();
 
 // GET Endpoint || description: http://localhost:4000/books/listBooks
-// Finds all data in the bookData.js file and sends it to front end with 200 status 
-router.get('/listBooks', function(req, res) {
+// Finds all data in the bookData.js file and sends it to front end with 200 status
+router.get("/listBooks", function (req, res) {
   res.status(200).json(books);
 });
 
 // GET Endpoint || description: http://localhost:4000/books/findBook
-// Finds specific book by :id in the bookData.js and sends book data to front end with 200 status 
-router.get('/findBook/:id', function(req, res) {
+// Finds specific book by :id in the bookData.js and sends book data to front end with 200 status
+router.get("/findBook/:id", function (req, res) {
   const bookId = req.params.id;
 
   // maps through json data returns book with matching id
   let foundBook = books.find((book) => {
     return book.id === parseInt(bookId);
   });
-  if(foundBook) {
+  if (foundBook) {
     res.status(200).json(foundBook);
-  }
-  else {
-    res.sendStatus(404)
+  } else {
+    res.sendStatus(404);
   }
 });
 
 // POST Endpoint || description: http://localhost:4000/books/createBook
-// Creates a new book in browser memory sends all books back to front end with 201 status 
-router.post('/createBook', function(req, res) {
-  let newBook = req.body
+// Creates a new book in browser memory sends all books back to front end with 201 status
+router.post("/createBook", function (req, res) {
+  let newBook = req.body;
   // adds unique id to new book
-  let newId = books.length + 1
-  newBook.id = newId
+  let newId = books.length + 1;
+  newBook.id = newId;
   // adds book to bookData.js json
-  books.push(newBook)
-  res.status(201).json(books)
+  books.push(newBook);
+  res.status(201).json(books);
 });
 
 // PUT Endpoint || description: http://localhost:4000/books/updateBook
-// Finds book by id and updates existing book in bookData.js json 
-router.put('/updateBook/:id', function(req, res) {
+// Finds book by id and updates existing book in bookData.js json
+router.put("/updateBook/:id", function (req, res) {
   const bookId = req.params.id;
 
   // maps through json data returns book with matching id
@@ -54,7 +53,7 @@ router.put('/updateBook/:id', function(req, res) {
       name: req.body.name,
       author: req.body.author,
       yearOfPublishing: req.body.yearOfPublishing,
-      isbnNumber: req.body.isbnNumber,
+      isdnNumber: req.body.isdnNumber,
     };
     // splices updated book object back into bookData.js json at the index that the book was found
     let editIndex = books.indexOf(foundBook);
@@ -67,8 +66,8 @@ router.put('/updateBook/:id', function(req, res) {
 });
 
 // DELETE Endpoint || description: http://localhost:4000/books/deleteBook
-// finds book by id and deletes in from browser memory 
-router.delete('/deleteBook/:id', function(req, res) {
+// finds book by id and deletes in from browser memory
+router.delete("/deleteBook/:id", function (req, res) {
   const bookId = req.params.id;
 
   // maps through json data returns book with matching id
@@ -85,6 +84,6 @@ router.delete('/deleteBook/:id', function(req, res) {
   } else {
     res.sendStatus(404);
   }
-})
+});
 
 module.exports = router;

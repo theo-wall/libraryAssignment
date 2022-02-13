@@ -22,7 +22,7 @@ const CreatePage = () => {
   const [name, setName] = useState("");
   const [author, setAuthor] = useState("");
   const [yearOfPublishing, setYearOfPublishing] = useState("");
-  const [isbnNumber, setIsbnNumber] = useState("");
+  const [isdnNumber, setisdnNumber] = useState("");
 
   const minValue = 1;
   const maxValue = 9999;
@@ -42,7 +42,7 @@ const CreatePage = () => {
         setName(response.data.name);
         setAuthor(response.data.author);
         setYearOfPublishing(response.data.yearOfPublishing);
-        setIsbnNumber(response.data.isbnNumber);
+        setisdnNumber(response.data.isdnNumber);
       } catch (e) {
         console.log(e);
       }
@@ -58,7 +58,7 @@ const CreatePage = () => {
       name,
       author,
       yearOfPublishing,
-      isbnNumber,
+      isdnNumber,
     };
     const response = await axios.post(
       `${process.env.REACT_APP_API_URL}/books/createBook`,
@@ -75,7 +75,7 @@ const CreatePage = () => {
       name,
       author,
       yearOfPublishing,
-      isbnNumber,
+      isdnNumber,
     };
     const response = await axios.put(
       `${process.env.REACT_APP_API_URL}/books/updateBook/${id}`,
@@ -144,17 +144,17 @@ const CreatePage = () => {
             sx={{ margin: "10px 10px 10px 0" }}
           />
           <TextField
-            id="isbn-number"
-            label="ISBN Number"
+            id="isdn-number"
+            label="ISDN Number"
             variant="outlined"
             type="number"
             inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
             min="0"
             fullWidth
             focused={Boolean(id)}
-            value={isbnNumber}
+            value={isdnNumber}
             onChange={(event) => {
-              setIsbnNumber(event.target.value);
+              setIsdnNumber(event.target.value);
             }}
             sx={{ margin: "10px 10px 10px 0" }}
           />
@@ -174,7 +174,7 @@ const CreatePage = () => {
             <Button
               variant="outlined"
               onClick={handleSubmit}
-              disabled={!name && !author && !yearOfPublishing && !isbnNumber}
+              disabled={!name && !author && !yearOfPublishing && !isdnNumber}
               sx={{ fontSize: "10px" }}
             >
               Submit New Book

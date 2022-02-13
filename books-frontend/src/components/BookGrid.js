@@ -1,15 +1,14 @@
 import { DataGrid } from "@mui/x-data-grid";
 
-
 const BookGrid = ({ bookData, handleSelect }) => {
   // creates array bookRows from bookData fetched from back end for MUI DataGrid
-   const rows = bookData?.map((book) => {
+  const rows = bookData?.map((book) => {
     return {
       id: book.id,
       col1: book.name,
       col2: book.author,
       col3: book.yearOfPublishing,
-      col4: book.isbnNumber,
+      col4: book.isdnNumber,
     };
   });
 
@@ -18,7 +17,7 @@ const BookGrid = ({ bookData, handleSelect }) => {
     { field: "col1", headerName: "Book Title", width: 150 },
     { field: "col2", headerName: "Author", width: 150 },
     { field: "col3", headerName: "Publishing Year", width: 150 },
-    { field: "col4", headerName: "ISBN Number", width: 150 },
+    { field: "col4", headerName: "ISDN Number", width: 150 },
   ];
 
   return (
