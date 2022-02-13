@@ -12,6 +12,7 @@ import BookGrid from "../components/BookGrid";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 
 const HomePage = () => {
   // navigate hook
@@ -21,6 +22,11 @@ const HomePage = () => {
   const [books, setBooks] = useState();
   const [bookSelectionId, setBookSelectionId] = useState();
   const [buttonSelect, setButtonSelect] = useState(true);
+
+  // state variable to open and close delete modal
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // pulls book id from DataGrid Component for edit/delete functions
   const handleSelect = (selection) => {
@@ -58,6 +64,7 @@ const HomePage = () => {
   // grid component formats the DataGrid component and buttons displayed below for Add/Edit/Delete functions
   const grid = (
     <React.Fragment>
+      <ConfirmDeleteModal open={open} handleClose={handleClose} handleDelete={handleDelete} />
       <CardContent>
         <Typography variant="h4" component="div" gutterBottom>
           Your Library:
@@ -92,7 +99,7 @@ const HomePage = () => {
           <Grid item xs={2} sx={{ paddingTop: "10px" }}>
             <Button
               variant="outlined"
-              onClick={handleDelete}
+              onClick={handleOpen}
               color="error"
               disabled={buttonSelect}
               sx={{ fontSize: "10px" }}

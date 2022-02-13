@@ -22,7 +22,7 @@ const CreatePage = () => {
   const [name, setName] = useState("");
   const [author, setAuthor] = useState("");
   const [yearOfPublishing, setYearOfPublishing] = useState("");
-  const [isdnNumber, setisdnNumber] = useState("");
+  const [isdnNumber, setIsdnNumber] = useState("");
 
   const minValue = 1;
   const maxValue = 9999;
@@ -42,7 +42,7 @@ const CreatePage = () => {
         setName(response.data.name);
         setAuthor(response.data.author);
         setYearOfPublishing(response.data.yearOfPublishing);
-        setisdnNumber(response.data.isdnNumber);
+        setIsdnNumber(response.data.isdnNumber);
       } catch (e) {
         console.log(e);
       }
@@ -174,12 +174,19 @@ const CreatePage = () => {
             <Button
               variant="outlined"
               onClick={handleSubmit}
-              disabled={!name && !author && !yearOfPublishing && !isdnNumber}
+              disabled={!name || !author || !yearOfPublishing || !isdnNumber}
               sx={{ fontSize: "10px" }}
             >
               Submit New Book
             </Button>
           )}
+          <Button
+            variant="outlined"
+            onClick={() => {navigate("/")}}
+            sx={{ fontSize: "10px", marginTop: '10px'}}
+          >
+            Cancel
+          </Button>
         </FormControl>
       </CardContent>
     </React.Fragment>
